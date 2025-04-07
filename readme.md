@@ -1,5 +1,6 @@
 ##### Notes
-
+###### Based on SpatieBase Getting Started
+###### Erreurs - Errors - Correct the upload image in add and edit functionalities
 @can('users.edit')
     <button>Edit User</button>
 @endcan
@@ -7,6 +8,10 @@
 @role('admin')
     <div>Admin-only content</div>
 @endrole
+
+OR in middlware
+Route::middleware(['auth', 'can:users.create'])->prefix('admin')->group(function () {});
+https://spatie.be/docs/laravel-permission/v6/basic-usage/middleware
 
 
 

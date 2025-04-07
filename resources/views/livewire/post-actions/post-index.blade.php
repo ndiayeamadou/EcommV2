@@ -34,7 +34,7 @@
                         {{ $post->title }}
                     </th>
                     <td class="px-6 py-4">
-                        <img src="{{ asset($post->image) }}" alt="image" class="w-12 h-12 rounded-2xl" />
+                        <img src="{{ asset('storage/'.$post->image) }}" alt="image" class="w-12 h-12 rounded-2xl" />
                     </td>
                     <td class="px-6 py-4">
                         {{ $post->content }}
