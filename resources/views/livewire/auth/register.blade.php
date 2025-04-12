@@ -17,14 +17,14 @@
         />
 
         <!-- Email Address -->
-        {{-- <flux:input
+        <flux:input
             wire:model="email"
             :label="__('Email address')"
             type="email"
             required
             autocomplete="email"
             placeholder="email@example.com"
-        /> --}}
+        />
 
         <!-- Password -->
         <flux:input

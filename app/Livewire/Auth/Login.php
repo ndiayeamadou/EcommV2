@@ -40,6 +40,16 @@ class Login extends Component
             ]);
         }
 
+        /* ELAN - add this if user is suspended */
+        $user = Auth::user();
+        if($user->isSuspended()) {
+            Auth::logout(); // logout the user, and then send error msg :)
+            throw ValidationException::withMessages([
+                //'email' => __('User account suspended'), // OR
+                'email' => __('Impossible de se connecter. Veuillez contacter l\'administrateur.'),
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PropertyController;
+use App\Livewire\Admin\UserManagement;
 use App\Livewire\Dashboard\AdminDashboard;
 use App\Livewire\PostActions\PostIndex;
 use App\Livewire\Settings\Appearance;
@@ -9,10 +10,12 @@ use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
 
 /* using spatie */
-Route::middleware(['auth'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
         return view('admindashboard');
     })->name('admindashboard');
+
+    Route::get('/users', UserManagement::class)->name('users');
     
     Route::get('/roles', function () {
         return view('roles');
