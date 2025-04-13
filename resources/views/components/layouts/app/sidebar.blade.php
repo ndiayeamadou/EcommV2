@@ -23,7 +23,7 @@
             <flux:spacer />
 
             <flux:navlist variant="outline">
-                <flux:navlist.item icon="folder-git-2" :href="route('users')" :current="request()->routeIs('users')" wire:navigate>
+                <flux:navlist.item icon="users" :href="route('users')" :current="request()->routeIs('users')" wire:navigate>
                 {{ __('Users') }}
                 </flux:navlist.item>
 

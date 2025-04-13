@@ -26,7 +26,9 @@ class User extends Authenticatable// implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'suspended_at'
+        'suspended_at',
+        'last_login_at',
+        'last_login_ip'
     ];
 
     /**
@@ -88,6 +90,14 @@ class User extends Authenticatable// implements MustVerifyEmail
     public function isSuspended()
     {
         return $this->suspended_at ? true : false;
+    }
+
+    /* last login & last ip - called it in Login*/
+    public function lastLoginUpdate()
+    {
+        $this->last_login_at = now();
+        $this->last_login_ip = request()->ip();
+        $this->save();
     }
     
 }

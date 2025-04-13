@@ -4,8 +4,13 @@
     <flux:subheading size="lg" class="mb-6">{{ __('Manage all your users') }}</flux:subheading>
     <flux:separator variant="subtle" class="mb-3" />
 
-    <div class="flex justify-end mr-6 py-3">
-        <a href="user-create" wire:navigate.hover class="text-indigo-500 hover:text-indigo-700">Create</a>
+    <div class="flex justify-end mr-0 py-3">
+        {{-- <a href="user-create" wire:navigate.hover class="text-indigo-500 hover:text-indigo-700">Create</a> --}}
+        <flux:button
+            href="user-create" icon-trailing="plus" class="bg-blue-600! text-white! hover:bg-blue-700!"
+        >
+            Create
+        </flux:button>
     </div>
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -22,6 +27,12 @@
                         Email
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        Last Login At
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Last Login IP
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Action
                     </th>
                 </tr>
@@ -31,7 +42,11 @@
                     
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ $user->name }}
+                        <div class="flex items-center">
+                            @if ($user->isSuspended())<flux:icon.x-circle variant="micro" class="text-red-600" />
+                            @else <flux:icon.check variant="micro" class="text-green-600" /> @endif
+                            {{ $user->name }}
+                        </div>
                     </th>
                     {{-- <td class="px-6 py-4">
                         <img src="{{ asset('storage/'.$user->image) }}" alt="image" class="w-12 h-12 rounded-2xl" />
@@ -39,17 +54,23 @@
                     <td class="px-6 py-4">
                         {{ $user->email }}
                     </td>
+                    <td class="px-6 py-4">
+                        {{ \Carbon\Carbon::parse($user->last_login_at)->format('d-m-Y H:i:s') }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $user->last_login_ip }}
+                    </td>
                     <td class="px-6 py-4 space-x-2">
                         {{-- <a href="{{ route('user.edit', $user->id) }}" wire:navigate.hover class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Editer</a>
                         <button wire:click="delete({{ $user->id }})" class="font-medium text-red-600 dark:text-red-500 hover:underline">Supprimer</button>
                          --}}
                         <div class="flex items-center space-x-3">
-                        <flux:button
+                        {{-- <flux:button
                             href="https://google.com" size="xs"
                             icon-trailing="arrow-up-right"
                         >
                             Visit Google
-                        </flux:button>
+                        </flux:button> --}}
                         @if ($user->isSuspended())
                         <flux:button wire:click="suspend({{ $user->id }})" size="xs" class="cursor-pointer text-white! bg-green-800! hover:bg-green-700!" icon="check">Rétablir</flux:button>
                             {{-- <button wire:click="unsuspend({{ $user->id }})" class="font-medium text-green-600 dark:text-green-500 hover:underline">Rétablir</button> --}}

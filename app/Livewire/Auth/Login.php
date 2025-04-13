@@ -50,6 +50,9 @@ class Login extends Component
             ]);
         }
 
+        /* call func */
+        $user->lastLoginUpdate();
+        
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
 
