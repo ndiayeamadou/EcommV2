@@ -15,10 +15,18 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('phone')->unique()->nullable();
+            $table->string('username')->unique()->nullable();
+            $table->enum('gender', ['male', 'female'])->nullable();
+            $table->date('birth_date')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('zipcode')->nullable();
+            $table->integer('type')->default(0);  // 5=>provider
+            $table->string('address')->nullable();
+            $table->string('photo')->nullable();
             $table->rememberToken();
-            $table->timestamp('suspended_at');
+            $table->timestamp('suspended_at')->nullable();
             $table->timestamp('last_login_at')->nullable();
             $table->string('last_login_ip')->nullable();
             $table->timestamps();

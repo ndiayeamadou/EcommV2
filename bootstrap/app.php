@@ -16,6 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         /* Append to the end of Middleware stack */
         //$middleware->append(CheckResponseForModifications::class);
+        $middleware->web(append:[
+            App\Http\Middleware\LocalizationMiddleware::class,
+        ]);
         /* Or add Middleware to the beginning of the stack */
         //$middleware->prepend(CheckResponseForModifications::class);
         /* $middleware->alias([

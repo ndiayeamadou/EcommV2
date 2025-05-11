@@ -28,3 +28,22 @@ public function up()
         $table->text('description')->nullable()->after('group');
     });
 }
+
+
+
+# Install additional helpful packages
+composer require spatie/laravel-permission
+composer require intervention/image
+composer require stripe/stripe-php
+composer require laravel/cashier
+composer require barryvdh/laravel-dompdf
+composer require cviebrock/eloquent-sluggable
+
+
+php artisan install:api
+
+php artisan make:controller Api/ProductController --api
+php artisan make:controller Api/CategoryController --api
+php artisan make:controller Api/CartController --api
+php artisan make:controller Api/OrderController --api
+php artisan make:controller Api/AuthController
