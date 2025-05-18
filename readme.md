@@ -1,6 +1,8 @@
 ##### Notes
 ###### Based on SpatieBase Getting Started
-###### Erreurs - Errors - Correct the upload image in add and edit functionalities
+Create flash-messages blade file in components to display flash messages
+& create a helper class (ex Flash) => php artisan make:class Helpers/Flash
+
 @can('users.edit')
     <button>Edit User</button>
 @endcan

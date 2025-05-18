@@ -32,6 +32,11 @@ class TaskIndex extends Component
 
     public function delete($id) {
         $this->dispatch('deleteTask', $id);
+        $this->dispatch('notify', [
+            'text' => 'Tâche supprimée avec succès!',
+            'type' => 'success',
+            'position' => 'top-right'
+        ]);
     }
 
 }

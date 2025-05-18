@@ -177,16 +177,16 @@ class Posales extends Component
                         $this->dispatch('notify', [
                             'text' => 'Veuillez sélectionner une couleur du produit.',
                             'type' => 'info',
-                            'status' => ''
+                            'position' => ''
                         ]);
                     }
                 } else { /* means product has no color.s */
                     /* check if d product already exist in cart */
                     if(Cart::where('user_id',auth()->user()->id)->where('product_id',$productId)->exists()) {
                         $this->dispatch('notify', [
-                            'title' => 'Attention',
-                            'message' => 'Ce produit figure déjà dans le panier.',
-                            'type' => 'success'
+                            'text' => 'Ce produit figure déjà dans le panier.',
+                            'type' => 'warning',
+                            'position' => ''
                         ]);
                     } else {
                         if($this->product->quantity > 0) {
@@ -203,9 +203,9 @@ class Posales extends Component
                                 /* refresh the cart counter using emit & listen it to cart-comps */
                                 //$this->emit('CartAddedUpdated');  // error emit
                                 $this->dispatch('notify', [
-                                    'title' => 'success',
-                                    'message' => 'Produit bien ajouté au panier',
-                                    'type' => 'info'
+                                    'position' => '',
+                                    'text' => 'Produit bien ajouté au panier',
+                                    'type' => 'success'
                                 ]);
                             } else {
                                 $this->dispatch('notify', [
@@ -218,9 +218,9 @@ class Posales extends Component
 
                         } else {
                             $this->dispatch('notify', [
-                                'message' => 'Ce produit est en rupture de stock',
+                                'text' => 'Ce produit est en rupture de stock',
                                 'type' => 'warning',
-                                'title' => 'Rupture de stock'
+                                'position' => ''
                             ]);
                         }
                     }
@@ -254,13 +254,13 @@ class Posales extends Component
 
                 if($productColor->quantity > $cartData->quantity) {
                     $cartData->increment('quantity');
-                    $this->dispatch('message', [
+                    $this->dispatch('notify', [
                         'text' => 'Produit mis à jour',
                         'type' => 'success',
                         'status' => 200
                     ]);
                 } else {
-                    $this->dispatch('message', [
+                    $this->dispatch('notify', [
                         'text' => 'Il ne reste que '.number_format($productColor->quantity).' article(s)',
                         'type' => 'warning',
                         'status' => ''
@@ -269,13 +269,13 @@ class Posales extends Component
             } else {
                 if($cartData->product->quantity > $cartData->quantity) {
                     $cartData->increment('quantity');
-                    $this->dispatch('message', [
+                    $this->dispatch('notify', [
                         'text' => 'Produit mis à jour',
                         'type' => 'success',
                         'status' => 200
                     ]);
                 } else {
-                    $this->dispatch('message', [
+                    $this->dispatch('notify', [
                         'text' => 'Il ne reste que '.number_format($cartData->product->quantity).' article(s)',
                         'type' => 'warning',
                         'status' => ''
@@ -283,7 +283,7 @@ class Posales extends Component
                 }
             }
         } else {
-            $this->dispatch('message', [
+            $this->dispatch('notify', [
                 'text' => 'Echec de la mise à jour. Veuillez rééssayer.',
                 'type' => 'error',
                 'status' => '404'
@@ -302,7 +302,7 @@ class Posales extends Component
 
                 if($productColor->quantity > 1) {
                     $cartData->decrement('quantity');
-                    $this->dispatch('message', [
+                    $this->dispatch('notify', [
                         'text' => 'Produit mis à jour',
                         'type' => 'success',
                         'status' => 200
@@ -311,13 +311,13 @@ class Posales extends Component
             } else {
                 if($cartData->quantity > 1) {
                     $cartData->decrement('quantity');
-                    $this->dispatch('message', [
+                    $this->dispatch('notify', [
                         'text' => 'Produit mis à jour',
                         'type' => 'success',
                         'status' => 200
                     ]);
                 }/*  else {
-                    $this->dispatchBrowserEvent('message', [
+                    $this->dispatchBrowserEvent('notify', [
                         'text' => 'La quantité ne peut être inférieure à 1.',
                         'type' => 'error',
                         'status' => ''
@@ -325,7 +325,7 @@ class Posales extends Component
                 } */
             }
         } else {
-            $this->dispatch('message', [
+            $this->dispatch('notify', [
                 'text' => 'Echec de la mise à jour. Veuillez rééssayer.',
                 'type' => 'error',
                 'status' => '404'
@@ -340,13 +340,13 @@ class Posales extends Component
         if($cart) {
             $cart->delete();
             //$this->emit('CartAddedUpdated'); // error emit
-            $this->dispatch('message', [
+            $this->dispatch('notify', [
                 'text' => 'Ce produit est bien supprimé de votre panier',
                 'type' => 'success',
                 'status' => 200
             ]);
         } else {
-            $this->dispatch('message', [
+            $this->dispatch('notify', [
                 'text' => 'Echec de la tentative de suppression. Veuillez rééssayer.',
                 'type' => 'error',
                 'status' => 500

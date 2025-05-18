@@ -59,7 +59,7 @@
                         <div class="{{ $activeTab === 'details' ? 'block' : 'hidden' }}">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
                                 <div class="md:col-span-2">
-                                    <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.Name') }}</label>
+                                    <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.name') }}</label>
                                     <input type="text" id="name" wire:model="name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600">
                                     @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                 </div>

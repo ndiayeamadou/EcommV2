@@ -6,7 +6,9 @@ use App\Models\Product;
 use App\Services\CartService;
 use Livewire\Component;
 use Livewire\Attributes\Title;
+use Livewire\Attributes\Layout;
 
+#[Layout('components.layouts.app-front')]
 class ProductDetail extends Component
 {
     public Product $product;
@@ -14,10 +16,14 @@ class ProductDetail extends Component
     public $selectedImageIndex = 0;
     public $reviewTab = 'description'; // 'description', 'specifications', 'reviews'
     
-    public function mount($slug)
+    //public function mount($slug)
+    public function mount($product)
     {
+        //dd($product->slug);
+        $slug = $product->slug;
         $this->product = Product::where('slug', $slug)
-            ->with(['category', 'images', 'reviews'])
+            //->with(['category', 'productImages', 'reviews'])
+            ->with(['category', 'productImages'])
             ->firstOrFail();
     }
     

@@ -47,6 +47,12 @@ class TaskEdit extends Component
         ]);
         Flux::modal('edit-task')->close();
         $this->dispatch('reloadTasks');
+        
+        $this->dispatch('notify', [
+            'text' => 'Cette tâche a bien été modifiée!',
+            'type' => 'success',
+            'position' => 'top-right'
+        ]);
 
     }
 
@@ -61,5 +67,11 @@ class TaskEdit extends Component
         $task->delete();
         $this->dispatch('reloadTasks');
         Flux::modal('delete-task')->close();
+        
+        $this->dispatch('notify', [
+            'text' => 'Cette tâche a bien été modifiée!',
+            'type' => 'success',
+            'position' => 'top-right'
+        ]);
     }
 }

@@ -1,9 +1,9 @@
 <div class="container mx-auto px-4 py-8">
     <!-- Breadcrumbs -->
     <div class="flex items-center text-sm text-gray-500 mb-8">
-        <a href="{{ route('home') }}" class="hover:text-purple-600 transition-colors">Home</a>
+        <a href="{{ route('home') }}" class="hover:text-purple-600 transition-colors">{{ __('messages.home') }}</a>
         <span class="mx-2">/</span>
-        <a href="{{ route('products') }}" class="hover:text-purple-600 transition-colors">Products</a>
+        <a href="{{ route('products') }}" class="hover:text-purple-600 transition-colors">@lang('messages.products')</a>
         <span class="mx-2">/</span>
         <a href="{{ route('category.show', $product->category->slug) }}" class="hover:text-purple-600 transition-colors">
             {{ $product->category->name }}
@@ -14,17 +14,25 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
         <!-- Product Images -->
+        {{-- @dump(count($product->productImages)) --}}
+        {{-- <img
+            src="{{ asset('storage/' . $product->productImages[0]->image_path) }}"
+            alt="{{ $product->name }}}"
+            class="w-full h-96 object-contain"
+        /> --}}
+
         <div 
             x-data="{ 
                 activeSlide: @entangle('selectedImageIndex'),
-                totalImages: {{ count($product->images) }} 
+                totalImages: {{ count($product->productImages) }} 
             }"
             class="animate-fade-in"
         >
             <!-- Main Image -->
             <div class="mb-4 relative overflow-hidden rounded-lg bg-gray-100">
-                @if(count($product->images) > 0)
-                    @foreach($product->images as $index => $image)
+                @if(count($product->productImages) > 0)
+                    @foreach($product->productImages as $index => $image)
+                    {{-- @dump($image->image_path) --}}
                         <div
                             x-show="activeSlide === {{ $index }}"
                             x-transition:enter="transition ease-out duration-300"
@@ -34,23 +42,31 @@
                             x-transition:leave-start="opacity-100 scale-100"
                             x-transition:leave-end="opacity-0 scale-95"
                         >
+                            {{-- <img
+                                src="{{ asset('storage/' . $image->image_path) }}"
+                                alt="{{ $product->name }} - Image {{ $index + 1 }}"
+                                class="w-full h-96 object-contain"
+                            /> --}}
                             <img
-                                src="{{ $image->image_path }}"
+                                src="{{ asset('storage/' . $image->image_path) }}"
                                 alt="{{ $product->name }} - Image {{ $index + 1 }}"
                                 class="w-full h-96 object-contain"
                             />
                         </div>
                     @endforeach
                 @else
-                    <img
+                    {{-- <img
                         src="{{ asset('images/placeholder.jpg') }}"
                         alt="{{ $product->name }}"
                         class="w-full h-96 object-cover"
-                    />
+                    /> --}}
+                    <div class="flex-shrink-0 h-96 w-96 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center">
+                        <span class="text-gray-500 dark:text-gray-400">{{ substr($product->name, 0, 1) }}</span>
+                    </div>
                 @endif
                 
                 <!-- Image Navigation Arrows (for multiple images) -->
-                @if(count($product->images) > 1)
+                @if(count($product->productImages) > 1)
                     <button 
                         @click="activeSlide = (activeSlide - 1 + totalImages) % totalImages" 
                         class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 text-gray-800 p-2 rounded-full shadow-md hover:bg-purple-600 hover:text-white transition-colors z-10"
@@ -74,16 +90,16 @@
             </div>
             
             <!-- Thumbnail Images -->
-            @if(count($product->images) > 1)
+            @if(count($product->productImages) > 1)
                 <div class="grid grid-cols-5 gap-2">
-                    @foreach($product->images as $index => $image)
+                    @foreach($product->productImages as $index => $image)
                         <button 
                             wire:click="$set('selectedImageIndex', {{ $index }})"
                             class="rounded-md overflow-hidden bg-gray-100 cursor-pointer border-2 transition-all"
                             :class="{'border-purple-600': activeSlide === {{ $index }}, 'border-transparent': activeSlide !== {{ $index }}}"
                         >
                             <img
-                                src="{{ $image->image_path }}"
+                                src="{{ asset('storage/' . $image->image_path) }}"
                                 alt="{{ $product->name }} - Thumbnail {{ $index + 1 }}"
                                 class="w-full h-20 object-cover"
                             />
@@ -119,27 +135,27 @@
                 <span class="ml-1 text-sm text-gray-500">({{ $product->reviews_count ?? 0 }} Reviews)</span>
                 <span class="mx-2 text-gray-300">|</span>
                 <span class="text-sm text-gray-500">
-                    @if($product->stock > 10)
-                        <span class="text-green-600">In Stock</span>
-                    @elseif($product->stock > 0)
-                        <span class="text-amber-600">Low Stock: {{ $product->stock }} left</span>
+                    @if($product->quantity > 10)
+                        <span class="text-green-600">{{ __('messages.in_stock') }}</span>
+                    @elseif($product->quantity > 0)
+                        <span class="text-amber-600">Low Stock: {{ $product->quantity }} left</span>
                     @else
-                        <span class="text-red-600">Out of Stock</span>
+                        <span class="text-red-600">{{ __('messages.out_of_stock') }}</span>
                     @endif
                 </span>
             </div>
 
             <!-- Price Section -->
-            @if($product->compare_at_price && $product->compare_at_price > $product->price)
+            @if($product->compare_at_price && $product->compare_at_price > $product->selling_price)
                 <div class="mb-4 flex items-center">
-                    <span class="text-2xl font-bold text-gray-900">${{ number_format($product->price, 2) }}</span>
+                    <span class="text-2xl font-bold text-gray-900">${{ number_format($product->selling_price, 2) }}</span>
                     <span class="ml-2 text-lg text-gray-500 line-through">${{ number_format($product->compare_at_price, 2) }}</span>
                     <span class="ml-2 bg-red-100 text-red-700 px-2 py-1 rounded-md text-xs font-medium">
-                        {{ round((1 - $product->price / $product->compare_at_price) * 100) }}% OFF
+                        {{ round((1 - $product->selling_price / $product->compare_at_price) * 100) }}% OFF
                     </span>
                 </div>
             @else
-                <p class="text-2xl font-bold text-gray-900 mb-4">${{ number_format($product->price, 2) }}</p>
+                <p class="text-2xl font-bold text-gray-900 mb-4">${{ number_format($product->selling_price, 2) }}</p>
             @endif
             
             <p class="text-gray-600 mb-6">{{ $product->short_description }}</p>
@@ -161,13 +177,13 @@
                         type="number"
                         wire:model.live="quantity"
                         min="1" 
-                        max="{{ $product->stock }}"
+                        max="{{ $product->quantity }}"
                         class="w-16 border-t border-b border-gray-300 p-2 text-center focus:outline-none focus:ring-2 focus:ring-purple-500"
                     />
                     <button
                         wire:click="increaseQuantity"
                         class="border border-gray-300 rounded-r-md p-2 focus:outline-none hover:bg-gray-100"
-                        {{ $quantity >= $product->stock ? 'disabled' : '' }}
+                        {{ $quantity >= $product->quantity ? 'disabled' : '' }}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -183,7 +199,7 @@
                     wire:loading.attr="disabled"
                     wire:target="addToCart"
                     class="bg-purple-600 hover:bg-purple-700 text-white flex-1 flex items-center justify-center py-3 px-6 rounded-md font-medium transition-colors"
-                    {{ $product->stock <= 0 ? 'disabled' : '' }}
+                    {{ $product->quantity <= 0 ? 'disabled' : '' }}
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -402,11 +418,28 @@
                     <div class="product-card group relative overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                         <!-- Product Image -->
                         <a href="{{ route('product.show', $relatedProduct->slug) }}" class="block relative overflow-hidden">
-                            <img 
+                            {{-- <img 
                                 src="{{ $relatedProduct->primaryImage ? $relatedProduct->primaryImage->image_path : asset('images/placeholder.jpg') }}" 
                                 alt="{{ $relatedProduct->name }}" 
                                 class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                            /> --}}
+                            @if ($relatedProduct->primaryImage)    
+                            <img 
+                                src="{{ asset('storage/' . $relatedProduct->primaryImage->image_path) }}" 
+                                alt="{{ $relatedProduct->name }}" 
+                                class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
                             />
+                            @elseif ($relatedProduct->productImages->count() > 0)
+                            <img 
+                                src="{{ asset('storage/' . $relatedProduct->productImages[0]->image_path) }}" 
+                                alt="{{ $relatedProduct->name }}" 
+                                class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                            />
+                            @else
+                            <div class="w-full flex-shrink-0 h-48 bg-gray-200 dark:bg-gray-600 flex items-center justify-center">
+                                <span class="text-gray-500 dark:text-gray-400">{{ substr($relatedProduct->name, 0, 10) }}...</span>
+                            </div>
+                            @endif
                             
                             @if($relatedProduct->is_featured)
                                 <span class="absolute top-2 left-2 bg-purple-500 text-white text-xs px-2 py-1 rounded-full">
@@ -414,11 +447,11 @@
                                 </span>
                             @endif
                             
-                            @if($relatedProduct->stock < 20 && $relatedProduct->stock > 0)
+                            @if($relatedProduct->quantity < 20 && $relatedProduct->quantity > 0)
                                 <span class="absolute top-2 right-2 bg-amber-500 text-white text-xs px-2 py-1 rounded-full">
                                     Limited Stock
                                 </span>
-                            @elseif($relatedProduct->stock <= 0)
+                            @elseif($relatedProduct->quantity <= 0)
                                 <span class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
                                     Out of Stock
                                 </span>
@@ -428,11 +461,11 @@
                             <div 
                                 class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                             >
-                                <livewire:add-to-cart-button 
+                                {{-- <livewire:add-to-cart-button 
                                     :product="$relatedProduct" 
                                     :key="'related-'.$relatedProduct->id"
                                     button-style="icon" 
-                                />
+                                /> --}}
                                 
                                 <a 
                                     href="{{ route('product.show', $relatedProduct->slug) }}"
@@ -460,7 +493,7 @@
                                 </h3>
                             </a>
                             <div class="flex justify-between items-center mt-2">
-                                <span class="font-semibold">${{ number_format($relatedProduct->price, 2) }}</span>
+                                <span class="font-semibold">${{ number_format($relatedProduct->selling_price, 2) }}</span>
                                 
                                 <!-- Star Rating -->
                                 <div class="flex items-center">

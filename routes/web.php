@@ -49,6 +49,7 @@ Route::get('/categories', CategoryManager::class)->name('categories');
 // Home and product routes
 //Route::get('/', HomePage::class)->name('home');
 Route::get('/products', ProductList::class)->name('products');
+//Route::get('/products/{product:slug}', ProductDetail::class)->name('product.show');
 Route::get('/products/{product:slug}', ProductDetail::class)->name('product.show');
 
 // Cart routes

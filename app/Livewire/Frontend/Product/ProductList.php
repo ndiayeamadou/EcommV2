@@ -40,7 +40,7 @@ class ProductList extends Component
         $this->priceRange = 1500;
     }
     
-    public function addToCart($productId)
+    public function addToCart__($productId)
     {
         $product = Product::find($productId);
         
@@ -58,7 +58,7 @@ class ProductList extends Component
                 'name' => $product->name,
                 'quantity' => 1,
                 'selling_price' => $product->selling_price,
-                'image' => $product->productImages->image_path[0]
+                'image' => $product->productImages[0]->image_path
             ];
         }
         
