@@ -2,7 +2,7 @@
     
     {{-- Cart Start --}}
     <div class="container mx-auto px-4 py-8">
-        <h1 class="text-2xl md:text-3xl font-bold mb-6">Your Shopping Cart ({{ $cartCount }})</h1>
+        <h1 class="text-2xl md:text-3xl font-bold mb-6">@lang('messages.your_shopping_cart') ({{ $cartCount }})</h1>
 
         {{-- @if(count($cartItems) > 0) --}}
         @if($cartCount > 0)
@@ -123,7 +123,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                                 </svg>
-                                Continue Shopping
+                                @lang('messages.continue_shopping')
                             </a>
                             <button 
                                 wire:click="clearCart"
@@ -134,7 +134,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                 </svg>
-                                Clear Cart
+                                {{ __('messages.clear_cart') }}
                             </button>
                         </div>
                     </div>
@@ -216,7 +216,7 @@
                             </svg>
                             
                             <span wire:loading.remove wire:target="checkout">
-                                Proceed to Checkout
+                                @lang('messages.proceed_to_checkout')
                             </span>
                             
                             <span wire:loading wire:target="checkout">

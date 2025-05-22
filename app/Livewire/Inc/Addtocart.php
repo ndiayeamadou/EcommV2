@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Inc;
 
-use App\Helpers\FlashMessage;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +11,7 @@ class Addtocart extends Component
 {
     public $product;
     public $productId;
+    public $qtyCount = 1;
     //public function addToCart(int $productId)
     //public function addToCart($product, int $productId)
 
@@ -54,8 +54,8 @@ class Addtocart extends Component
                                         'quantity' => $this->qtyCount,
                                         //'back' => 0
                                     ]);
-                                    /* refresh the cart counter using emit & listen it to cart-comps */
-                                    $this->emit('CartAddedUpdated');
+                                    /* refresh the cart counter & create it to CartCount comp */
+                                    $this->dispatch('CartAddedUpdated');
                                     $this->dispatch('notify', [
                                         'text' => 'Produit bien ajouté au panier',
                                         'type' => 'success',
@@ -89,9 +89,9 @@ class Addtocart extends Component
                     /* check if d product already exist in cart */
                     if(Cart::where('user_id',auth()->user()->id)->where('product_id',$productId)->exists()) {
                         $this->dispatch('notify', [
-                            'title' => 'Attention',
-                            'message' => 'Ce produit figure déjà dans le panier.',
-                            'type' => 'success'
+                            'position' => '',
+                            'text' => 'Ce produit figure déjà dans le panier.',
+                            'type' => 'warning'
                         ]);
                     } else {
                         if($this->product->quantity > 0) {
@@ -105,27 +105,26 @@ class Addtocart extends Component
                                     'quantity' => $this->qtyCount,
                                     //'back' => 0
                                 ]);
-                                /* refresh the cart counter using emit & listen it to cart-comps */
-                                //$this->emit('CartAddedUpdated');  // error emit
+                                /* refresh the cart counter & create it to CartCount comp */
+                                $this->dispatch('CartAddedUpdated');
                                 $this->dispatch('notify', [
-                                    'title' => 'success',
-                                    'message' => 'Produit bien ajouté au panier',
-                                    'type' => 'info'
+                                    'text' => 'Produit bien ajouté au panier',
+                                    'type' => 'success'
                                 ]);
                             } else {
                                 $this->dispatch('notify', [
                                     /* 'text' => 'La quantité demandée est supérieure à celle restante', */
                                     'text' => 'La quantité disponible est de '.$this->product->quantity,
                                     'type' => 'warning',
-                                    'status' => ''
+                                    'position' => ''
                                 ]);
                             }
 
                         } else {
                             $this->dispatch('notify', [
-                                'message' => 'Ce produit est en rupture de stock',
+                                'text' => 'Ce produit est en rupture de stock',
                                 'type' => 'warning',
-                                'title' => 'Rupture de stock'
+                                'position' => ''
                             ]);
                         }
                     }

@@ -25,6 +25,8 @@ return [
     'place_order' => 'Place Order',
     'view_details' => 'View Details',
     'save_to_wishlist' => 'Save to Wishlist',
+    'clear_cart' => 'Clear Cart',
+    'proceed_to_checkout' => 'Proceed to Checkout',
     
     // Product info
     'price' => 'Price',
@@ -49,8 +51,12 @@ return [
     'total' => 'Total',
     'empty_cart' => 'Your cart is empty',
     'shipping_address' => 'Shipping Address',
+    'shipping_information' => 'Shipping Information',
     'payment_method' => 'Payment Method',
     'remove'    =>  'remove',
+    'first_name'=> 'First Name',
+    'last_name' => 'Last Name',
+    'phone'     => 'Phone',
     
     // Account
     'account_info' => 'Account Information',
@@ -70,6 +76,9 @@ return [
     'shop_by_category' => 'Shop by Category',
     'our_partners' => 'Our Partners',
     'view_all' => 'View All',
+    'your_shopping_cart' => 'Your Shopping Cart',
+    'including_VAT' => 'Including VAT',
+    'we_accept' => 'We accept',
     
     // Hero section
     'hero' => [

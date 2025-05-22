@@ -24,6 +24,8 @@ return [
     'place_order' => 'Passer la commande',
     'view_details' => 'Voir les détails',
     'save_to_wishlist' => 'Ajouter aux favoris',
+    'clear_cart' => 'Vider le Panier',
+    'proceed_to_checkout' => 'Passer à la Caisse',
     
     // Product info
     'price' => 'Prix',
@@ -48,8 +50,12 @@ return [
     'total' => 'Total',
     'empty_cart' => 'Votre panier est vide',
     'shipping_address' => 'Adresse de livraison',
+    'shipping_information' => 'Information de livraison',
     'payment_method' => 'Mode de paiement',
     'remove'    =>  'enlever',
+    'first_name'=> 'Prénom(s)',
+    'last_name' => 'Nom',
+    'phone'     => 'Téléphone',
     
     // Account
     'account_info' => 'Informations du compte',
@@ -69,6 +75,9 @@ return [
     'shop_by_category' => 'Acheter par Catégorie',
     'our_partners' => 'Nos Partenaires',
     'view_all' => 'Voir Tout',
+    'your_shopping_cart' => 'Votre panier',
+    'including_VAT' => 'T.V.A incluse',
+    'we_accept' => 'Nous acceptons',
     
     // Hero section
     'hero' => [

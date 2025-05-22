@@ -2,7 +2,8 @@
 
 namespace App\Livewire\Frontend\Cart;
 
-use App\Services\CartService;
+use App\Models\Cart;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
@@ -11,77 +12,25 @@ use Livewire\Attributes\Layout;
 #[Layout('components.layouts.app-front')]
 class CartShow extends Component
 {
-    public $cartItems = [];
-    public $cartTotal = 0;
-    public $shipping = 0;
-    public $promoCode = '';
-    public $promoDiscount = 0;
-    
-    protected $cartService;
-    
-    /* public function boot(CartService $cartService)
-    {
-        $this->cartService = $cartService;
-    } */
-    
+   public $cart, $totalPrice = 0;
+   public $product, $category, $productColorSelectedQty, $productColorId, $qtyCount = 1, $colorName;
+   /* for cart */
+   public $cartCount;
+   protected $listeners = ['CartAddedUpdated' => 'checkCartCount'];
+   //public $search;
+
+   public function checkCartCount()
+   {
+       if(Auth::check()) {
+           return $this->cartCount = Cart::where('user_id', auth()->user()->id)->count();
+       } else {
+           return $this->cartCount = 0;
+       }
+   }
+   
     public function mount()
     {
         $this->refreshCart();
-    }
-    
-    public function removeFromCart($productId)
-    {
-        $this->cartService->remove($productId);
-        $this->refreshCart();
-        
-        $this->dispatch('notify', [
-            'title' => 'Item removed',
-            'message' => 'Product removed from your cart',
-            'type' => 'info'
-        ]);
-        
-        $this->dispatch('cartUpdated', count: $this->cartService->count());
-    }
-    
-    public function updateQuantity($productId, $quantity)
-    {
-        if ($quantity <= 0) {
-            $this->removeFromCart($productId);
-            return;
-        }
-        
-        // Get product to check stock
-        $product = $this->cartItems->firstWhere('id', $productId);
-        
-        if ($product && $quantity > $product->stock) {
-            $this->dispatch('notify', [
-                'title' => 'Stock limit reached',
-                'message' => "Only {$product->stock} items available",
-                'type' => 'warning'
-            ]);
-            
-            $quantity = $product->stock;
-        }
-        
-        $this->cartService->updateQuantity($productId, $quantity);
-        $this->refreshCart();
-        $this->dispatch('cartUpdated', count: $this->cartService->count());
-    }
-    
-    public function increaseQuantity($productId)
-    {
-        $item = $this->cartItems->firstWhere('id', $productId);
-        if ($item) {
-            $this->updateQuantity($productId, $item->quantity + 1);
-        }
-    }
-    
-    public function decreaseQuantity($productId)
-    {
-        $item = $this->cartItems->firstWhere('id', $productId);
-        if ($item && $item->quantity > 1) {
-            $this->updateQuantity($productId, $item->quantity - 1);
-        }
     }
     
     public function clearCart()
@@ -98,28 +47,6 @@ class CartShow extends Component
         $this->dispatch('cartUpdated', count: 0);
     }
     
-    public function applyPromoCode()
-    {
-        // Example promo code implementation
-        if (strtoupper($this->promoCode) === 'WELCOME10') {
-            $this->promoDiscount = $this->cartTotal * 0.1;
-            
-            $this->dispatch('notify', [
-                'title' => 'Promo code applied',
-                'message' => '10% discount has been applied to your order',
-                'type' => 'success'
-            ]);
-        } else {
-            $this->promoDiscount = 0;
-            
-            $this->dispatch('notify', [
-                'title' => 'Invalid promo code',
-                'message' => 'The promo code you entered is invalid or expired',
-                'type' => 'error'
-            ]);
-        }
-    }
-    
     protected function refreshCart()
     {
         //$this->cartItems = $this->cartService->content();
@@ -134,9 +61,129 @@ class CartShow extends Component
         return redirect()->route('checkout');
     }
     
+    //public function increaseQty($id)
+    public function incrementQty($id)
+    {
+        $cartData = Cart::where('user_id', auth()->user()->id)->where('id', $id)->first();
+        if($cartData) {
+            /* si le produit a une couleur */
+            if($cartData->productColor()->where('id',$cartData->product_color_id)->exists())
+            {
+                $productColor = $cartData->productColor()->where('id',$cartData->product_color_id)->first();
+
+                if($productColor->quantity > $cartData->quantity) {
+                    $cartData->increment('quantity');
+                    $this->dispatch('notify', [
+                        'text' => 'Produit mis à jour',
+                        'type' => 'success',
+                        'status' => 200
+                    ]);
+                } else {
+                    $this->dispatch('notify', [
+                        'text' => 'Il ne reste que '.number_format($productColor->quantity).' article(s)',
+                        'type' => 'warning',
+                        'status' => ''
+                    ]);
+                }
+            } else {
+                if($cartData->product->quantity > $cartData->quantity) {
+                    $cartData->increment('quantity');
+                    $this->dispatch('notify', [
+                        'text' => 'Produit mis à jour',
+                        'type' => 'success',
+                        'status' => 200
+                    ]);
+                } else {
+                    $this->dispatch('notify', [
+                        'text' => 'Il ne reste que '.number_format($cartData->product->quantity).' article(s)',
+                        'type' => 'warning',
+                        'status' => ''
+                    ]);
+                }
+            }
+        } else {
+            $this->dispatch('notify', [
+                'text' => 'Echec de la mise à jour. Veuillez rééssayer.',
+                'type' => 'error',
+                'status' => '404'
+            ]);
+        }
+    }
+    //public function decreaseQty($id)
+    public function decrementQty($id)
+    {
+        $cartData = Cart::where('user_id', auth()->user()->id)->where('id', $id)->first();
+        if($cartData) {
+            /* si le produit a une couleur */
+            if($cartData->productColor()->where('id',$cartData->product_color_id)->exists())
+            {
+                $productColor = $cartData->productColor()->where('id',$cartData->product_color_id)->first();
+
+                if($productColor->quantity > 1) {
+                    $cartData->decrement('quantity');
+                    $this->dispatch('notify', [
+                        'text' => 'Produit mis à jour',
+                        'type' => 'success',
+                        'status' => 200
+                    ]);
+                }
+            } else {
+                if($cartData->quantity > 1) {
+                    $cartData->decrement('quantity');
+                    $this->dispatch('notify', [
+                        'text' => 'Produit mis à jour',
+                        'type' => 'success',
+                        'status' => 200
+                    ]);
+                }/*  else {
+                    $this->dispatchBrowserEvent('notify', [
+                        'text' => 'La quantité ne peut être inférieure à 1.',
+                        'type' => 'error',
+                        'status' => ''
+                    ]);
+                } */
+            }
+        } else {
+            $this->dispatch('notify', [
+                'text' => 'Echec de la mise à jour. Veuillez rééssayer.',
+                'type' => 'error',
+                'status' => '404'
+            ]);
+        }
+    }
+
+    public function removeFromCart($cartId)
+    {
+        //dd($cartId);
+        $cart = Cart::where('id',$cartId)->where('user_id', auth()->user()->id)->first();
+        if($cart) {
+            $cart->delete();
+            /* refresh the cart counter & create it to CartCount comp */
+            $this->dispatch('CartAddedUpdated');
+            $this->dispatch('notify', [
+                'text' => 'Ce produit est bien supprimé de votre panier',
+                'type' => 'success',
+                'status' => 200
+            ]);
+        } else {
+            $this->dispatch('notify', [
+                'text' => 'Echec de la tentative de suppression. Veuillez rééssayer.',
+                'type' => 'error',
+                'status' => 500
+            ]);
+        }
+    }
+
+    
     public function render()
     {
-        return view('livewire.frontend.cart.cart-show');
+        $this->cartCount = $this->checkCartCount(); /* for cart count */
+        $this->cart  = Cart::where('user_id', auth()->user()->id)->get();
+
+        return view('livewire.frontend.cart.cart-show', [
+            'cart' => $this->cart,
+            'cartCount' => $this->cartCount,
+        ]);
     }
 }
 

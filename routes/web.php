@@ -10,6 +10,7 @@ use App\Livewire\Admin\UserManagement;
 use App\Livewire\Dashboard\AdminDashboard;
 use App\Livewire\Frontend\Cart\CartShow;
 use App\Livewire\Frontend\Checkout\Checkout;
+use App\Livewire\Frontend\Checkout\CheckoutShow;
 use App\Livewire\Frontend\HomePage;
 use App\Livewire\Frontend\Product\ProductDetail;
 use App\Livewire\Frontend\Product\ProductList;
@@ -53,8 +54,10 @@ Route::get('/products', ProductList::class)->name('products');
 Route::get('/products/{product:slug}', ProductDetail::class)->name('product.show');
 
 // Cart routes
+Route::middleware(['auth'])->group(function () {
 Route::get('/mon-panier', CartShow::class)->name('cart');
-//Route::get('/checkout', CheckoutPage::class)->name('checkout');
+Route::get('/checkout', CheckoutShow::class)->name('checkout');
+});
 
 
 // Authentication Routes
