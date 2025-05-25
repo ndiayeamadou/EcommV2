@@ -29,12 +29,12 @@ class ProductDetail extends Component
     
     public function increaseQuantity()
     {
-        if ($this->quantity < $this->product->stock) {
+        if ($this->quantity < $this->product->quantity) {
             $this->quantity++;
         } else {
             $this->dispatch('notify', [
                 'title' => 'Maximum stock reached',
-                'message' => "Only {$this->product->stock} items available",
+                'message' => "Only {$this->product->quantity} items available",
                 'type' => 'warning'
             ]);
         }

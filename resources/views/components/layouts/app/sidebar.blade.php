@@ -21,7 +21,7 @@
                 <flux:navlist.group :heading="__('Platform')" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('messages.dashboard') }}</flux:navlist.item>
                     <flux:navlist.item icon="book-open-text" :href="route('admin.categories')" :current="request()->routeIs('admin.categories')" wire:navigate>{{ __('messages.categories') }}</flux:navlist.item>
-                    <flux:navlist.item icon="book-open-text" :href="route('admin.products')" :current="request()->routeIs('admin.products')" wire:navigate>{{ __('messages.products') }}</flux:navlist.item>
+                    <flux:navlist.item icon="list-bullet" :href="route('admin.products')" :current="request()->routeIs('admin.products')" wire:navigate>{{ __('messages.products') }}</flux:navlist.item>
                     <flux:navlist.item icon="book-open-text" :href="route('posts.index')" :current="request()->routeIs('posts.index')" wire:navigate>{{ __('Postes') }}</flux:navlist.item>
                     <flux:navlist.item icon="book-open-text" :href="route('tasks')" :current="request()->routeIs('tasks')" wire:navigate>{{ __('Tâches') }}</flux:navlist.item>
                     <flux:navlist.item icon="book-open-text" :href="route('admin.posales')" :current="request()->routeIs('admin.posales')" wire:navigate>{{ __('messages.posales') }}</flux:navlist.item>

@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,18 +25,4 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 
-    protected function authenticated(Request $request, $user)
-    {
-        if ($user->hasRole('admin')) {
-            return redirect()->route('admin.dashboard');
-        } elseif ($user->hasRole('manager')) {
-            return redirect()->route('manager.dashboard');
-        } elseif ($user->hasRole('editor')) {
-            return redirect()->route('editor.dashboard');
-        } elseif ($user->hasRole('user')) {
-            return redirect()->route('user.dashboard');
-        } else {
-            return redirect()->route('guest.dashboard');
-        }
-    }
 }

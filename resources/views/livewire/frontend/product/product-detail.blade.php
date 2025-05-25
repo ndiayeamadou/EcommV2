@@ -155,14 +155,14 @@
                     </span>
                 </div>
             @else
-                <p class="text-2xl font-bold text-gray-900 mb-4">${{ number_format($product->selling_price, 2) }}</p>
+                <p class="text-2xl font-bold text-gray-900 mb-4">{{ number_format($product->selling_price, 2) }} FCFA</p>
             @endif
             
             <p class="text-gray-600 mb-6">{{ $product->short_description }}</p>
 
             <!-- Quantity Selector -->
             <div class="mb-6">
-                <h3 class="font-medium text-gray-900 mb-2">Quantity</h3>
+                <h3 class="font-medium text-gray-900 mb-2">{{ __('messages.quantity') }}</h3>
                 <div class="flex items-center">
                     <button
                         wire:click="decreaseQuantity"
@@ -391,7 +391,8 @@
                     
                     <div class="mt-8">
                         @auth
-                            <a href="{{ route('product.review.create', $product) }}" class="inline-flex items-center bg-purple-600 text-white py-2 px-4 rounded-md font-medium hover:bg-purple-700 transition-colors">
+                            {{-- <a href="{{ route('product.review.create', $product) }}" class="inline-flex items-center bg-purple-600 text-white py-2 px-4 rounded-md font-medium hover:bg-purple-700 transition-colors"> --}}
+                            <a href="" class="inline-flex items-center bg-purple-600 text-white py-2 px-4 rounded-md font-medium hover:bg-purple-700 transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                 </svg>

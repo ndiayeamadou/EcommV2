@@ -1,20 +1,20 @@
 <header class="bg-white shadow-sm sticky top-0 z-50">
     <nav class="container mx-auto px-4 py-4 flex items-center justify-between">
         <!-- Logo -->
-        <a href="{{ route('home') }}" class="flex items-center">
-            <span class="text-2xl font-bold text-purple-600">Bloom</span>
+        <a href="{{ route('home') }}" wire:navigate class="flex items-center">
+            <span class="text-2xl font-bold text-purple-600">Boutique</span>
         </a>
 
         <!-- Desktop Navigation -->
         <div class="hidden md:flex items-center space-x-8">
-            <a href="{{ route('home') }}" class="text-gray-700 hover:text-purple-600 transition-colors">
+            <a href="{{ route('home') }} wire:navigate" class="text-gray-700 hover:text-purple-600 transition-colors">
                 {{ __('messages.home') }}
             </a>
-            <a href="{{ route('products') }}" class="text-gray-700 hover:text-purple-600 transition-colors">
+            <a href="{{ route('products') }}" wire:navigate class="text-gray-700 hover:text-purple-600 transition-colors">
                 {{-- {{ __('Products') }} --}}
                 @lang('messages.products')
             </a>
-            <a href="{{ route('categories') }}" class="text-gray-700 hover:text-purple-600 transition-colors">
+            <a href="{{ route('categories') }}" wire:navigate class="text-gray-700 hover:text-purple-600 transition-colors">
                 {{ __('messages.categories') }}
             </a>
             {{-- <a href="{{ route('about') }}" class="text-gray-700 hover:text-purple-600 transition-colors">
@@ -30,7 +30,7 @@
                 </svg>
             </button>
             
-            <a href="{{ route('cart') }}" class="relative p-2 hover:bg-purple-100 rounded-full" aria-label="Cart">
+            <a href="{{ route('cart') }}" wire:navigate class="relative p-2 hover:bg-purple-100 rounded-full" aria-label="Cart">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
@@ -44,7 +44,7 @@
                 </span>
             </a>
             
-            <a href="{{ route('login') }}" class="p-2 hover:bg-purple-100 rounded-full" aria-label="Account">
+            <a href="{{ route('login') }}" wire:navigate class="p-2 hover:bg-purple-100 rounded-full" aria-label="Account">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
@@ -96,21 +96,21 @@
         <div class="md:hidden bg-white px-4 pt-2 pb-4 shadow-md animate-fade-in">
             <div class="flex flex-col space-y-3">
                 <a
-                    href="{{ route('home') }}"
+                    href="{{ route('home') }}" wire:navigate
                     class="px-2 py-2 text-gray-700 hover:bg-purple-100 rounded-md"
                     wire:click="toggleMenu"
                 >
                     {{ __('messages.home') }}
                 </a>
                 <a
-                    href="{{ route('products') }}"
+                    href="{{ route('products') }}" wire:navigate
                     class="px-2 py-2 text-gray-700 hover:bg-purple-100 rounded-md"
                     wire:click="toggleMenu"
                 >
                     {{ __('Products') }}
                 </a>
                 <a
-                    href="{{ route('categories') }}"
+                    href="{{ route('categories') }}" wire:navigate
                     class="px-2 py-2 text-gray-700 hover:bg-purple-100 rounded-md"
                     wire:click="toggleMenu"
                 >
@@ -125,7 +125,7 @@
                 </a> --}}
                 <hr class="border-gray-200" />
                 <div class="flex justify-between">
-                    <a
+                    {{-- <a
                         href="{{ route('search') }}"
                         class="px-2 py-2 text-gray-700 hover:bg-purple-100 rounded-md flex items-center"
                         wire:click="toggleMenu"
@@ -134,9 +134,9 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                         {{ __('Search') }}
-                    </a>
+                    </a> --}}
                     <a
-                        href="{{ route('cart') }}"
+                        href="{{ route('cart') }}" wire:navigate
                         class="px-2 py-2 text-gray-700 hover:bg-purple-100 rounded-md flex items-center"
                         wire:click="toggleMenu"
                     >
@@ -146,7 +146,7 @@
                         {{ __('Cart') }} ({{ $cartCount }})
                     </a>
                     <a
-                        href="{{ route('login') }}"
+                        href="{{ route('login') }}" wire:navigate
                         class="px-2 py-2 text-gray-700 hover:bg-purple-100 rounded-md flex items-center"
                         wire:click="toggleMenu"
                     >

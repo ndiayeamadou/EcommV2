@@ -123,8 +123,8 @@ class CheckoutShow extends Component
                 'type' => 'success',
                 'status' => 200
             ]);
-            //return redirect()->to('remerciements');
-            return redirect()->to('products');
+            //return redirect()->to('thank-you');
+            return $this->redirect('/thank-you', navigate:true);
         } else {
             $this->dispatch('notify', [
                 'text' => 'Echec. Rééssayer.',
