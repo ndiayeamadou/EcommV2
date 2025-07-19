@@ -1,7 +1,7 @@
 ##### Notes
 ###### Based on SpatieBase Getting Started
-Create flash-messages blade file in components to display flash messages
-& create a helper class (ex Flash) => php artisan make:class Helpers/Flash
+Remove livewire-tmp/
+https://laravel-livewire.com/docs/2.x/file-uploads#auto-cleanup
 
 @can('users.edit')
     <button>Edit User</button>

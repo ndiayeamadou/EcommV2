@@ -50,7 +50,8 @@
                 </svg>
             </a>
             
-            <button 
+            <!-- Flag - Localization -->
+            {{-- <button 
                 wire:click="toggleLanguage" 
                 class="ml-2 p-1 hover:bg-gray-100 rounded-md"
                 title="{{ $currentLanguage === 'en' ? 'Switch to French' : 'Switch to English' }}"
@@ -60,7 +61,7 @@
                 @else
                     <img src="{{ asset('images/uk-flag.svg') }}" alt="English" class="w-6 h-6">
                 @endif
-            </button>
+            </button> --}}
         </div>
 
         <!-- Mobile Menu Button -->

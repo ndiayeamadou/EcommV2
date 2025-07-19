@@ -3,6 +3,7 @@
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\PropertyController;
 use App\Livewire\Admin\Category\CategoryManager;
+use App\Livewire\Admin\Dashboard\UserDashboard;
 use App\Livewire\Admin\Pos\Posales;
 use App\Livewire\Admin\Product\ProductManager;
 use App\Livewire\Admin\Product\ProductsList;
@@ -24,23 +25,14 @@ use Illuminate\Support\Facades\Route;
 /* new 04/05 */
 // routes/web.php
 
-/* use App\Livewire\HomePage;
-use App\Livewire\Shop\ProductList;
-use App\Livewire\Shop\ProductDetail;
-use App\Livewire\Shop\ShoppingCart;
-use App\Livewire\Shop\Checkout;
-use App\Livewire\Account\Dashboard as AccountDashboard;
+/* use App\Livewire\Account\Dashboard as AccountDashboard;
 use App\Livewire\Account\ProfileManager;
 use App\Livewire\Account\OrderHistory;
 use App\Livewire\Account\WishlistManager;
-use App\Livewire\Admin\Dashboard as AdminDashboard;
-use App\Livewire\Admin\CategoryManager;
-use App\Livewire\Admin\ProductManager;
 use App\Livewire\Admin\OrderManager;
 use App\Livewire\Admin\CustomerManager;
 use App\Livewire\Admin\UserManager;
-use App\Livewire\Admin\ReportGenerator;
-use Illuminate\Support\Facades\Route; */
+use App\Livewire\Admin\ReportGenerator; */
 
 // Guest Routes
 Route::get('/', HomePage::class)->name('home');
@@ -77,30 +69,6 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-/* end */
-
-
-/* using spatie */
-Route::middleware(['auth', 'verified', 'isAdmin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admindashboard');
-    })->name('admindashboard');
-
-    Route::get('/users', UserManagement::class)->name('users');
-    
-    Route::get('/roles', function () {
-        return view('roles');
-    })->name('roles');
-    
-    Route::get('/permissions', function () {
-        return view('permissions');
-    })->name('permissions');
-    
-    Route::get('/user-roles', function () {
-        return view('user-roles');
-    })->name('user-roles');
-});
-
 Route::middleware(['permission:content.create'])->group(function () {
     // Routes that require 'content.create' permission
 });
@@ -116,14 +84,13 @@ Route::middleware(['role:admin'])->group(function () {
     return view('welcome');
 })->name('home'); */
 
-Route::view('dashboard', 'dashboard')
+/* Route::view('dashboard', 'dashboard')
+    ->middleware(['auth', 'verified', 'isClient'])
+    ->name('dashboard'); */
+Route::get('/dashboard', UserDashboard::class)
     ->middleware(['auth', 'verified', 'isClient'])
     ->name('dashboard');
 
-
-Route::view('tasks', 'tasks')
-    ->middleware(['auth', 'verified'])
-    ->name('tasks');
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');

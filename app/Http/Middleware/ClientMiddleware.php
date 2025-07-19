@@ -16,7 +16,7 @@ class ClientMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if(auth()->user()->type !== 0) {
-            return redirect()->route("admindashboard");
+            return redirect()->route("admin.dashboard");
         }
 
         return $next($request);

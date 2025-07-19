@@ -15,16 +15,17 @@
             <!-- Filters Sidebar -->
             <aside class="w-full lg:w-1/4 bg-white p-6 rounded-lg shadow-sm h-fit">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-medium text-lg">Filters</h3>
+                    <h3 class="font-medium text-lg">@lang('messages.filters')</h3>
                     <button wire:click="resetFilters" class="text-sm text-primary">
-                        Clear all
+                        {{-- Clear all --}}
+                        @lang('messages.clear_all')
                     </button>
                 </div>
 
                 <!-- Categories Filter -->
                 <div class="mb-6">
                     <div class="flex justify-between items-center mb-2">
-                        <h4 class="font-medium">Categories</h4>
+                        <h4 class="font-medium">{{ __('messages.categories') }}</h4>
                     </div>
                     <div class="space-y-2">
                         @foreach($categories as $category)
@@ -119,7 +120,8 @@
                                 @endif
                                 @if($product->quantity < 10)
                                     <span class="absolute top-2 right-2 bg-amber-500 text-white text-xs px-2 py-1 rounded-full">
-                                        Limited Stock
+                                        {{-- Limited Stock --}}
+                                        Stock Limité
                                     </span>
                                 @endif
                             </a>
@@ -135,7 +137,8 @@
                                     </h3>
                                 </a>
                                 <div class="flex justify-between items-center mt-2">
-                                    <span class="text-lg font-semibold">${{ number_format($product->selling_price, 2) }}</span>
+                                    {{-- <span class="text-lg font-semibold">${{ number_format($product->selling_price, 2) }}</span> --}}
+                                    <span class="text-lg font-semibold">{{ number_format($product->selling_price, 2) }} FCFA</span>
                                     <div class="flex space-x-2">
                                         <button class="p-2 rounded-full hover:bg-primary-light hover:text-primary">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

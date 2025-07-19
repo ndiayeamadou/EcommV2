@@ -3,7 +3,7 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <!-- Company Info -->
             <div>
-                <h3 class="text-lg font-bold text-gray-900 mb-4">{{ __('Bloom') }}</h3>
+                <h3 class="text-lg font-bold text-gray-900 mb-4">{{ __('Ma Boutique!') }}</h3>
                 <p class="text-gray-600 mb-4">
                     {{ __('Your one-stop shop for high-quality products at affordable prices.') }}
                 </p>

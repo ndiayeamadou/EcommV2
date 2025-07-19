@@ -98,6 +98,7 @@ class ProductManager extends Component
     public function loadProduct($id)
     {
         $product = Product::findOrFail($id);
+        //dd($product);
         $this->product_id = $product->id;
         $this->name = $product->name;
         $this->slug = $product->slug;
@@ -180,10 +181,11 @@ class ProductManager extends Component
             $this->rules['slug'] = 'required|unique:products,slug,' . $this->product_id;
         }
         
-        //$this->validate();
+        $this->validate();
         
         try {
             if ($this->editMode) {
+                dd('ok edit');
                 $product = Product::find($this->product_id);
                 $product->update([
                     'name' => $this->name,
@@ -330,5 +332,6 @@ class ProductManager extends Component
             'categories' => $categories
         ]);
     }
+
 }
 

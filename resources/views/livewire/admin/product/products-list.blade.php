@@ -2,9 +2,9 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-                <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 md:mb-0">{{ __('Products') }}</h1>
+                <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 md:mb-0">{{ __('messages.products') }}</h1>
                 <a href="{{ route('admin.products.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                    {{ __('Add New Product') }}
+                    {{ __('messages.add_new_product') }}
                 </a>
             </div>
             
@@ -24,22 +24,22 @@
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div>
-                        <label for="search" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Search') }}</label>
+                        <label for="search" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ ucfirst(__('messages.search')) }}</label>
                         <input 
                             wire:model.debounce.300ms="search" 
                             type="text" 
-                            placeholder="{{ __('Search products...') }}" 
+                            placeholder="{{ __('messages.search_products') }}" 
                             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600"
                         >
                     </div>
                     
                     <div>
-                        <label for="category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Category') }}</label>
+                        <label for="category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ ucfirst(__('messages.category')) }}</label>
                         <select 
                             wire:model="categoryFilter" 
                             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600"
                         >
-                            <option value="">{{ __('All Categories') }}</option>
+                            <option value="">{{ __('messages.all_categories') }}</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
@@ -52,7 +52,7 @@
                             wire:model="statusFilter" 
                             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600"
                         >
-                            <option value="">{{ __('All Statuses') }}</option>
+                            <option value="">{{ __('messages.all_statuses') }}</option>
                             <option value="active">{{ __('Active') }}</option>
                             <option value="inactive">{{ __('Inactive') }}</option>
                         </select>
@@ -80,7 +80,7 @@
                         <thead class="bg-gray-50 dark:bg-gray-700">
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer" wire:click="sortBy('name')">
-                                    {{ __('Product') }}
+                                    {{ __('messages.product') }}
                                     @if ($sortField === 'name')
                                         <span class="ml-1">
                                             @if ($sortDirection === 'asc')
@@ -92,10 +92,10 @@
                                     @endif
                                 </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden md:table-cell">
-                                    {{ __('Category') }}
+                                    {{ __('messages.category') }}
                                 </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer" wire:click="sortBy('price')">
-                                    {{ __('Price') }}
+                                    {{ __('messages.price') }}
                                     @if ($sortField === 'price')
                                         <span class="ml-1">
                                             @if ($sortDirection === 'asc')
@@ -150,7 +150,8 @@
                                         <div class="text-sm text-gray-900 dark:text-white">{{ $product->category->name }}</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900 dark:text-white">${{ number_format($product->price, 2) }}</div>
+                                        {{-- <div class="text-sm text-gray-900 dark:text-white">${{ number_format($product->selling_price, 2) }}</div> --}}
+                                        <div class="text-sm text-gray-900 dark:text-white">{{ number_format($product->selling_price, 2) }} F</div>
                                         @if($product->compare_at_price)
                                             <div class="text-xs text-gray-500 dark:text-gray-400 line-through">${{ number_format($product->compare_at_price, 2) }}</div>
                                         @endif
@@ -158,15 +159,15 @@
                                     <td class="px-6 py-4 whitespace-nowrap hidden sm:table-cell">
                                         @if($product->quantity > 20)
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                                {{ $product->quantity }} {{ __('in stock') }}
+                                                {{ number_format($product->quantity) }} ({{ __('messages.in_stock') }})
                                             </span>
                                         @elseif($product->quantity > 0)
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                                {{ $product->quantity }} {{ __('in stock') }}
+                                                {{ number_format($product->quantity) }} ({{ __('messages.in_stock') }})
                                             </span>
                                         @else
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                                {{ __('Out of stock') }}
+                                                ({{ __('messages.out_of_stock') }})
                                             </span>
                                         @endif
                                     </td>

@@ -1,5 +1,5 @@
 <div class="p-6 bg-white rounded-lg shadow-md">
-    <h2 class="text-2xl font-semibold mb-6">Role Management445</h2>
+    <h2 class="text-2xl font-semibold mb-6">Role Management</h2>
 
     <!-- Create Role Form -->
     <div class="mb-8 p-4 bg-gray-50 rounded-md">

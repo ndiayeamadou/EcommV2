@@ -7,6 +7,9 @@ return [
     'products' => 'Produits',
     'product' => 'Produit',
     'categories' => 'Catégories',
+    'all_categories' => 'Toutes Catégories',
+    'all_statuses' => 'Tous Status',
+    'search_products' => 'Rechercher produits...',
     'cart' => 'Panier',
     'checkout' => 'Paiement',
     'my_account' => 'Mon compte',
@@ -26,6 +29,7 @@ return [
     'save_to_wishlist' => 'Ajouter aux favoris',
     'clear_cart' => 'Vider le Panier',
     'proceed_to_checkout' => 'Passer à la Caisse',
+    'add_new_product' => 'Nouveau Produit',
     
     // Product info
     'price' => 'Prix',
@@ -40,7 +44,8 @@ return [
     'add_new_product' => 'Nouveau Produit',
     'product_details' => 'Détails du Produit',
     'all_products' => 'Tous les Produits',
-    'out_of_stock' => 'en rupture de stock',
+    //'out_of_stock' => 'en rupture de stock',
+    'out_of_stock' => 'en rupture',
     'in_stock' => 'en stock',
     
     // Cart & Checkout
@@ -56,6 +61,9 @@ return [
     'first_name'=> 'Prénom(s)',
     'last_name' => 'Nom',
     'phone'     => 'Téléphone',
+    'category'  => 'catégorie',
+    'search'  => 'recherche',
+    'order_summary'     => 'Résumé Commande',
     
     // Account
     'account_info' => 'Informations du compte',
@@ -78,6 +86,8 @@ return [
     'your_shopping_cart' => 'Votre panier',
     'including_VAT' => 'T.V.A incluse',
     'we_accept' => 'Nous acceptons',
+    'filters' => 'Filtres',
+    'clear_all' => 'Tout effacer',
     
     // Hero section
     'hero' => [

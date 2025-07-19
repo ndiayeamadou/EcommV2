@@ -12,34 +12,49 @@
         <flux:sidebar sticky stashable class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
+            @if (Auth::user()->type == 3)
+            <a href="{{ route('admin.dashboard') }}" class="mr-5 flex items-center space-x-2" wire:navigate>
+                <x-app-logo />
+                {{-- ELAN CODEUR --}}
+            </a>
+            @else
             <a href="{{ route('dashboard') }}" class="mr-5 flex items-center space-x-2" wire:navigate>
                 <x-app-logo />
                 {{-- ELAN CODEUR --}}
             </a>
+            @endif
 
             <flux:navlist variant="outline">
-                <flux:navlist.group :heading="__('Platform')" class="grid">
+                <flux:navlist.group :heading="__('Platforme')" class="grid">
+                    @if (Auth::user()->type == 0)
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('messages.dashboard') }}</flux:navlist.item>
+                    @endif
+                    @if (Auth::user()->type == 3)
+                    <flux:navlist.item icon="home" :href="route('admin.dashboard')" :current="request()->routeIs('admin.dashboard')" wire:navigate>{{ __('messages.dashboard') }}</flux:navlist.item>
                     <flux:navlist.item icon="book-open-text" :href="route('admin.categories')" :current="request()->routeIs('admin.categories')" wire:navigate>{{ __('messages.categories') }}</flux:navlist.item>
                     <flux:navlist.item icon="list-bullet" :href="route('admin.products')" :current="request()->routeIs('admin.products')" wire:navigate>{{ __('messages.products') }}</flux:navlist.item>
-                    <flux:navlist.item icon="book-open-text" :href="route('posts.index')" :current="request()->routeIs('posts.index')" wire:navigate>{{ __('Postes') }}</flux:navlist.item>
-                    <flux:navlist.item icon="book-open-text" :href="route('tasks')" :current="request()->routeIs('tasks')" wire:navigate>{{ __('Tâches') }}</flux:navlist.item>
-                    <flux:navlist.item icon="book-open-text" :href="route('admin.posales')" :current="request()->routeIs('admin.posales')" wire:navigate>{{ __('messages.posales') }}</flux:navlist.item>
+                    {{-- <flux:navlist.item icon="book-open-text" :href="route('admin.posts.index')" :current="request()->routeIs('admin.posts.index')" wire:navigate>{{ __('Postes') }}</flux:navlist.item>
+                    <flux:navlist.item icon="book-open-text" :href="route('admin.tasks')" :current="request()->routeIs('admin.tasks')" wire:navigate>{{ __('Tâches') }}</flux:navlist.item>
+                    --}}<flux:navlist.item icon="book-open-text" :href="route('admin.posales')" :current="request()->routeIs('admin.posales')" wire:navigate>{{ __('messages.posales') }}</flux:navlist.item>
+                    <flux:navlist.item icon="book-open-text" :href="route('admin.tasks')" :current="request()->routeIs('admin.tasks')" wire:navigate>{{ __('Commandes') }}</flux:navlist.item>
+                    @endif
                 </flux:navlist.group>
             </flux:navlist>
 
             <flux:spacer />
 
             <flux:navlist variant="outline">
-                <flux:navlist.item icon="users" :href="route('users')" :current="request()->routeIs('users')" wire:navigate>
+                @if (Auth::user()->type == 3)
+                <flux:navlist.item icon="users" :href="route('admin.users')" :current="request()->routeIs('admin.users')" wire:navigate>
                 {{-- {{ __('Users') }} --}}
                 @lang('messages.users')
                 </flux:navlist.item>
 
-                <flux:navlist.item icon="folder-git-2" :href="route('admindashboard')" :current="request()->routeIs('admindashboard')" wire:navigate>
+                <flux:navlist.item icon="folder-git-2" :href="route('admin.admindashboard')" :current="request()->routeIs('admin.admindashboard')" wire:navigate>
                 {{ __('Roles') }}
                 </flux:navlist.item>
-
+                @endif
+                {{-- 
                 <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
                 {{ __('Repository') }}
                 </flux:navlist.item>
@@ -47,11 +62,11 @@
                 <flux:navlist.item icon="book-open-text" href="https://laravel.com/docs/starter-kits" target="_blank">
                 {{ __('Documentation') }}
                 </flux:navlist.item>
-
-                <div class="language-switcher">
+                 --}}
+                {{-- <div class="language-switcher">
                     <a href="{{ route('language.switch', 'en') }}" class="{{ app()->getLocale() == 'en' ? 'active' : '' }}">EN</a>
                     <a href="{{ route('language.switch', 'fr') }}" class="{{ app()->getLocale() == 'fr' ? 'active' : '' }}">FR</a>
-                </div>
+                </div> --}}
             </flux:navlist>
 
             <!-- Desktop User Menu -->

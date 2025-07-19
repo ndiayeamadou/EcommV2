@@ -23,7 +23,11 @@ class User extends Authenticatable// implements MustVerifyEmail
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        //'name',
+        'firstname',
+        'lastname',
+        'pseudo',
+        'matricule',
         'email',
         'phone',
         'username',
@@ -62,9 +66,16 @@ class User extends Authenticatable// implements MustVerifyEmail
     /**
      * Get the user's initials
      */
-    public function initials(): string
+    /* public function initials(): string
     {
         return Str::of($this->name)
+            ->explode(' ')
+            ->map(fn(string $name) => Str::of($name)->substr(0, 1))
+            ->implode('');
+    } */
+   public function initials(): string
+    {
+        return Str::of($this->firstname .' '.$this->lastname)
             ->explode(' ')
             ->map(fn(string $name) => Str::of($name)->substr(0, 1))
             ->implode('');

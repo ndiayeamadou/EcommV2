@@ -8,6 +8,9 @@ return [
     'products' => 'Products',
     'product' => 'Product',
     'categories' => 'Categories',
+    'all_categories' => 'All Categories',
+    'all_statuses' => 'All Statuses',
+    'search_products' => 'Search products...',
     'cart' => 'Cart',
     'checkout' => 'Checkout',
     'my_account' => 'My Account',
@@ -27,6 +30,7 @@ return [
     'save_to_wishlist' => 'Save to Wishlist',
     'clear_cart' => 'Clear Cart',
     'proceed_to_checkout' => 'Proceed to Checkout',
+    'add_new_product' => 'Add New Product',
     
     // Product info
     'price' => 'Price',
@@ -57,6 +61,9 @@ return [
     'first_name'=> 'First Name',
     'last_name' => 'Last Name',
     'phone'     => 'Phone',
+    'category'  => 'category',
+    'search'  => 'search',
+    'order_summary'     => 'Order Summary',
     
     // Account
     'account_info' => 'Account Information',
@@ -79,6 +86,8 @@ return [
     'your_shopping_cart' => 'Your Shopping Cart',
     'including_VAT' => 'Including VAT',
     'we_accept' => 'We accept',
+    'filters' => 'Filters',
+    'clear_all' => 'Clear all',
     
     // Hero section
     'hero' => [
